@@ -1,0 +1,72 @@
+<div>
+  <h1 class="bg-success text-center">Inline Editing Table</h1>
+  <h2 class="bg-warning text-center">(CRUD Operation )</h2>
+</div>
+<div class="mt-5">
+  <div class="flex text-end">
+    <button class="btn btn-success" (click)="addNew()">Add New Dept</button>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr class="table-primary">
+        <th>S.NO</th>
+        <th>Department Id</th>
+        <th>Department Name</th>
+        <th>Department Logo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let department of departments; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ department.departmentId }}</td>
+        <td>
+          <div *ngIf="department.isEditable">
+            <input
+              type="text"
+              [(ngModel)]="department.departmentName"
+              class="form-control"
+            />
+          </div>
+          <div *ngIf="!department.isEditable">
+            {{ department.departmentName }}
+          </div>
+        </td>
+        <td>
+          <div *ngIf="department.isEditable">
+            <input
+              type="text"
+              [(ngModel)]="department.departmentLogo"
+              class="form-control"
+            />
+          </div>
+          <div *ngIf="!department.isEditable">
+            {{ department.departmentLogo }}
+          </div>
+        </td>
+        <td>
+          <ng-container *ngIf="department.isEditable">
+            <button class="btn btn-success" (click)="updateDept(department)">
+              {{ department.departmentId !== 0 ? "Update" : "Save" }}
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              (click)="cancelEdit(department, i)"
+            >
+              Cancel
+            </button>
+          </ng-container>
+          <ng-container *ngIf="!department.isEditable">
+            <button class="btn btn-warning" (click)="editDept(department)">
+              Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteDept(department)">
+              Delete
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
